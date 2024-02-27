@@ -1,7 +1,36 @@
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import { useEffect } from "react";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
+import { readFileSync } from "fs";
+import path from "path";
+
+export async function getStaticProps() {
+  const user = readFileSync(
+    path.join(process.cwd(), "public", `aa.txt`),
+    "utf-8"
+  );
+  console.log(`------user------`);
+  console.log(user);
+
+  return {
+    props: {
+      user: JSON.parse(user),
+    },
+  };
+}
 
 export default function Home() {
+  useEffect(() => {
+    // 读取文件
+    // fs.readFile("aa.txt", "utf-8", (err, data) => {
+    //   if (err) {
+    //     console.error(err);
+    //   } else {
+    //     console.log(data);
+    //   }
+    // });
+  }, []);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -55,7 +84,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
         </a>
       </footer>
